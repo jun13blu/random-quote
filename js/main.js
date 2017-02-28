@@ -1,32 +1,37 @@
-
 var text = "abcde";
 var textArr = Array.from(text);
 function toSpan(target, input){
-    var x = 0;
+    var i = 0;
     input.forEach(function(val){
-        $(target).append("<span id='letter-" + x + "'>" + val + "</span>");
-        x++;
+        $(target).append("<span class='" + "hidden" + "'>" + val + "</span>");
+        $(".hidden").css('opacity','0');
+        i++;
     });
 }
 
-function rndText(len) {
-    var arr = [];
-    var rndArr = [];
-    for(var i = 0; i < len.length; i++){
-        arr.push(i);
-    }
-    for(var i = 0; i < len.length; i++){
-        var rn = Math.floor(Math.random() * arr.length);
-        var num = "#letter-" + arr.splice(rn, 1);
-        $(num).fadeTo("slow", 1);
-    }
+function rndLetter(){
+        var letters = $("h1").children(".hidden");
+        if(letters.length > 0){
+            var num = Math.floor(Math.random() * letters.length);
+            $(".hidden:eq(" + num + ")").removeClass("hidden").animate({
+                opacity: 1
+            },"fast", function(){
+
+            });
+            setTimeout(rndLetter, 100);
+        }
 }
 
 $(function(){
     $("button").click(function(){
-        $("h1").text("");
-        toSpan("h1", textArr);
-        $("h1").fadeTo(1, 0);
-        rndText(textArr);
+        $("h1").children().animate({
+            opacity: 0
+        }, "fast", function(){
+            text = $("input").val();
+            textArr = Array.from(text);
+            $("h1").text("");
+            toSpan("h1", textArr);
+            setTimeout(rndLetter, 100);
+        });
     });
 });
