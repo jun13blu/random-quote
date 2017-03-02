@@ -1,37 +1,82 @@
-var text = "abcde";
-var textArr = Array.from(text);
 function toSpan(target, input){
-    var i = 0;
     input.forEach(function(val){
-        $(target).append("<span class='" + "hidden" + "'>" + val + "</span>");
-        $(".hidden").css('opacity','0');
-        i++;
+        $(target).append("<span class='" + "zero" + "'>" + val + "</span>");
+        $(target).children(".zero").css('opacity','0');
     });
 }
 
-function rndLetter(){
-        var letters = $("h1").children(".hidden");
+function rndLetter(val, class1, class2, target){
+        var letters = $(target).children("." + class1);
         if(letters.length > 0){
             var num = Math.floor(Math.random() * letters.length);
-            $(".hidden:eq(" + num + ")").removeClass("hidden").animate({
-                opacity: 1
-            },"fast", function(){
-
-            });
-            setTimeout(rndLetter, 100);
+            $("." + class1 + ":eq(" + num + ")").addClass(class2).removeClass(class1).animate({
+                opacity: val
+            }, 100);
+            timer = setTimeout(function(){
+                rndLetter(val, class1, class2, target);
+            }, 1);
+        }
+        else{
+            if(target == "h1"){
+                rndLetter(val, class1, class2, "h2");
+            }
+            else{
+                if(val < 1){
+                    cont();
+                }    
+            }
         }
 }
 
-$(function(){
-    $("button").click(function(){
-        $("h1").children().animate({
-            opacity: 0
-        }, "fast", function(){
-            text = $("input").val();
-            textArr = Array.from(text);
-            $("h1").text("");
-            toSpan("h1", textArr);
-            setTimeout(rndLetter, 100);
-        });
+function fadeIn(){
+    rndLetter(1, "zero", "shown", "h1");
+};
+
+function fadeOut(){
+    rndLetter(0.01, "shown", "zero", "h1");
+};
+
+function cont(){
+    $.getJSON("http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?", function(data){
+        var text = data.quoteText;
+        var author = "";
+        if(data.quoteAuthor){
+            author = data.quoteAuthor;
+        }
+        else{
+            author = "anonymous";
+        }
+        var textArr = Array.from(text);
+        var authorArr = Array.from(author);
+        $("h1").text("");
+        $("h2").text("");
+        toSpan("h1", textArr);
+        toSpan("h2", authorArr);
+        fadeIn();
     });
+};
+
+function tweet(){
+    var letters = $("h1").children();
+    var line = '"';
+    $.each(letters, function(i, l){
+        line += $(l).text();
+    });
+    line = line.trim();
+    line += '" - ';
+    letters = $("h2").children();
+    $.each(letters, function(i, l){
+        line += $(l).text();
+    });
+    window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(line));
+}
+
+$(function(){
+    cont();
+    $("#more").click(function(){
+        fadeOut();
+    });
+    $("#tweet").click(function(){
+        tweet();
+    })
 });
