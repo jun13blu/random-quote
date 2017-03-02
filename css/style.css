@@ -59,6 +59,14 @@ h2 {
     text-transform: lowercase;
 }
 
+.shown {
+    opacity: 1;
+}
+
+.hide {
+    opacity: 0;
+}
+
 ul {
     text-align: center;
     height: 10%;
