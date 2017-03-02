@@ -8,6 +8,11 @@ html, body {
     height: 100%;
 }
 
+body {
+    min-width: 300px;
+    min-height: 300px;
+}
+
 .full-bg {
     background: linear-gradient(to bottom right, #135058, #F1F2B5);
     min-height: 100%;
@@ -16,16 +21,9 @@ html, body {
     width: 100%;
 }
 
-.content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 80%;
-}
-
 .quote {
-    min-height: 25em;
+    min-height: 80%;
+    height: 80%;
     position: relative;
 }
 
@@ -34,7 +32,7 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 100%;
+    min-width: 80%;
 }
 
 h1, h2 {
@@ -43,7 +41,7 @@ h1, h2 {
     padding: 5px;
 }
 
-h1, h2 {
+h1, h2, p {
     color: #EEE;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
@@ -63,11 +61,12 @@ h2 {
 
 ul {
     text-align: center;
+    height: 10%;
 }
 
 li {
     display: inline-block;
-    padding: 30px;
+    padding: 0 30px;
     font-size: 1.5em;
 }
 
@@ -83,4 +82,22 @@ a {
 a:hover {
     color: rgba(255, 255, 255, 0.8);
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+
+footer p {
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7em;
+}
+
+footer p a {
+  text-decoration: none;
+  color: inherit;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  transition: text-shadow 0.3s;
+}
+
+footer p a:hover {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
